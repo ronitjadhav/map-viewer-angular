@@ -1,0 +1,37 @@
+<div class="h-full flex">
+  <!-- Left Panel for Minimized Icons -->
+  <div class="w-15 bg-white flex flex-col items-center pt-2.5 rounded-2xl">
+    <button *ngIf="isMinimized" (click)="toggleMinimize()" class="border-none bg-transparent cursor-pointer rounded-full h-12 w-12 flex justify-center items-center mb-2.5" matTooltip="Add Layers">
+      <mat-icon class="material-symbols-rounded">add_box</mat-icon>
+    </button>
+    <button *ngIf="isMinimized" (click)="toggleMinimize()" class="border-none bg-transparent cursor-pointer rounded-full h-12 w-12 flex justify-center items-center mb-2.5" matTooltip="Print">
+      <mat-icon class="material-symbols-rounded">print</mat-icon>
+    </button>
+  </div>
+
+  <!-- Main Panel -->
+  <div class="main-panel relative h-full w-[400px]">
+    <div *ngIf="!isMinimized" class="bg-white rounded h-full overflow-hidden">
+      <div class="p-3 border-b border-gray-300 flex items-center justify-between">
+        <div class="flex items-center">
+          <mat-icon class="material-symbols-outlined mr-2">add_box</mat-icon>
+          <span>Layers</span>
+        </div>
+        <button (click)="toggleMinimize()">
+          <mat-icon class="material-symbols-outlined">expand_more</mat-icon>
+        </button>
+      </div>
+      <mat-tab-group animationDuration="200ms" class="h-full">
+        <mat-tab [label]="'Add Layer from WMS'">
+          <div class="p-3">
+            <app-add-layer-from-wms></app-add-layer-from-wms>
+          </div>
+        </mat-tab>
+        <mat-tab [label]="'Add Layer from WFS'">
+          <div class="p-3">
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>

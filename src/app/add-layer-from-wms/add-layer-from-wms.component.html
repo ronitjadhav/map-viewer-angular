@@ -1,0 +1,42 @@
+<mat-form-field class="w-full mb-4">
+  <mat-label>Enter WMS URL</mat-label>
+  <input matInput [(ngModel)]="wmsUrl" (ngModelChange)="urlChange.next($event)" />
+</mat-form-field>
+
+<div *ngIf="loading" class="text-blue-600 text-center mt-4">
+  Loading...
+</div>
+
+<div *ngIf="errorMessage" class="text-red-600 text-center mt-4">
+  {{ errorMessage }}
+</div>
+
+<div *ngIf="!loading && layers.length > 0" class="mt-1">
+  <h2 class="font-bold text-xl mb-4" translate>Available Layers:</h2>
+  <ng-container
+    *ngFor="let layer of layers"
+    [ngTemplateOutlet]="layerTreeItem"
+    [ngTemplateOutletContext]="{
+      layer: layer
+    }"
+  ></ng-container>
+</div>
+
+<ng-template #layerTreeItem let-layer="layer">
+  <div class="flex items-center justify-between bg-white p-2 rounded-lg shadow-sm layer-tree-item mb-2">
+    <p class="max-w-xs overflow-hidden overflow-ellipsis whitespace-nowrap">
+      {{ layer.title }}
+    </p>
+    <mat-icon matTooltip="Add to map" *ngIf="!layer.children?.length" (click)="addLayer(layer)">add_circle_outline</mat-icon>
+  </div>
+  <div *ngIf="layer.children?.length > 0" class="ml-4">
+    <ng-container
+      *ngFor="let child of layer.children"
+      [ngTemplateOutlet]="layerTreeItem"
+      [ngTemplateOutletContext]="{
+        layer: child
+      }"
+    >
+    </ng-container>
+  </div>
+</ng-template>
