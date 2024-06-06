@@ -1,23 +1,31 @@
 <div class="h-full flex">
   <!-- Left Panel for Minimized Icons -->
-  <div class="w-15 bg-white flex flex-col items-center pt-2.5 rounded-2xl">
-    <button *ngIf="isMinimized" (click)="toggleMinimize()" class="border-none bg-transparent cursor-pointer rounded-full h-12 w-12 flex justify-center items-center mb-2.5" matTooltip="Add Layers">
+  <div class="w-15 bg-white flex flex-col items-center pt-2.5 rounded-2xl" *ngIf="isLayersListMinimized && isAddLayersMinimized">
+    <button *ngIf="isAddLayersMinimized" (click)="toggleAddLayers()" class="border-none bg-transparent cursor-pointer rounded-full h-12 w-12 flex justify-center items-center mb-2.5" matTooltip="Add Layers">
       <mat-icon class="material-symbols-rounded">add_box</mat-icon>
     </button>
-    <button *ngIf="isMinimized" (click)="toggleMinimize()" class="border-none bg-transparent cursor-pointer rounded-full h-12 w-12 flex justify-center items-center mb-2.5" matTooltip="Print">
+    <button *ngIf="isLayersListMinimized" (click)="toggleLayersList()" class="border-none bg-transparent cursor-pointer rounded-full h-12 w-12 flex justify-center items-center mb-2.5" matTooltip="Layers List">
+      <mat-icon class="material-symbols-rounded">list</mat-icon>
+    </button>
+    <button *ngIf="isAddLayersMinimized" (click)="toggleAddLayers()" class="border-none bg-transparent cursor-pointer rounded-full h-12 w-12 flex justify-center items-center mb-2.5" matTooltip="Print">
       <mat-icon class="material-symbols-rounded">print</mat-icon>
     </button>
   </div>
+<!--  <div *ngIf="isLayersListMinimized">-->
+<!--    <div *ngFor="let layer of layers">-->
+<!--      <div *ngIf="hasNameProperty(layer)">{{ layer.name }}</div>-->
+<!--    </div>-->
+<!--  </div>-->
 
   <!-- Main Panel -->
   <div class="main-panel relative h-full w-[400px]">
-    <div *ngIf="!isMinimized" class="bg-white rounded h-full overflow-hidden">
+    <div *ngIf="!isAddLayersMinimized" class="bg-white rounded h-full overflow-hidden">
       <div class="p-3 border-b border-gray-300 flex items-center justify-between">
         <div class="flex items-center">
           <mat-icon class="material-symbols-outlined mr-2">add_box</mat-icon>
           <span>Layers</span>
         </div>
-        <button (click)="toggleMinimize()">
+        <button (click)="toggleAddLayers()">
           <mat-icon class="material-symbols-outlined">expand_more</mat-icon>
         </button>
       </div>
@@ -32,6 +40,20 @@
           </div>
         </mat-tab>
       </mat-tab-group>
+    </div>
+    <div *ngIf="!isLayersListMinimized" class="bg-white rounded h-full overflow-hidden">
+      <div class="p-3 border-b border-gray-300 flex items-center justify-between">
+        <div class="flex items-center">
+          <mat-icon class="material-symbols-outlined mr-2">list</mat-icon>
+          <span>Layers List</span>
+        </div>
+        <button (click)="toggleLayersList()">
+          <mat-icon class="material-symbols-outlined">expand_more</mat-icon>
+        </button>
+      </div>
+      <div *ngFor="let layer of layers">
+        <div *ngIf="hasNameProperty(layer)">{{ layer.name }}</div>
+      </div>
     </div>
   </div>
 </div>

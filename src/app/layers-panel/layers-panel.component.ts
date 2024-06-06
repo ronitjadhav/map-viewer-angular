@@ -8,6 +8,7 @@ import { NgForOf, NgIf } from "@angular/common";
 import { MatTab, MatTabGroup } from "@angular/material/tabs";
 import { AddLayerFromWmsComponent } from "../add-layer-from-wms/add-layer-from-wms.component";
 import { MatTooltip } from "@angular/material/tooltip";
+import { MapContextLayerWms } from "@geospatial-sdk/core";
 
 @Component({
   selector: 'app-layers-panel',
@@ -28,32 +29,35 @@ export class LayersPanelComponent implements OnInit {
   layers: MapContextLayer[] | undefined;
   context: MapContext | null = null;
   map: Map | null = null;
-  isMinimized = true;
+  isAddLayersMinimized = true;
+  isLayersListMinimized = true;
 
   constructor(private mapService: MapService) {}
 
-  toggleMinimize() {
-    this.isMinimized = !this.isMinimized;
+  toggleAddLayers() {
+    this.isAddLayersMinimized = !this.isAddLayersMinimized;
+  }
+
+  toggleLayersList() {
+    this.isLayersListMinimized = !this.isLayersListMinimized;
   }
 
   ngOnInit() {
-    console.log('LayersPanelComponent initialized');
     this.mapService.mapContext$.subscribe(context => {
       if (context) {
-        console.log('LayersPanelComponent: mapContext$ event received');
         this.context = context;
         this.layers = this.context?.layers;
-        console.log('Context after initialization:', this.context);
-        console.log('Layers:', this.layers);
       }
     });
 
     this.mapService.map$.subscribe(map => {
       if (map) {
-        console.log('LayersPanelComponent: map$ event received');
         this.map = map;
-        console.log('Map after initialization:', this.map);
       }
     });
+  }
+
+  hasNameProperty(layer: MapContextLayer): layer is MapContextLayerWms {
+    return 'name' in layer;
   }
 }

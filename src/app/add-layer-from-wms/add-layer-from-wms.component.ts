@@ -52,25 +52,18 @@ export class AddLayerFromWmsComponent implements OnInit {
 
     this.mapService.mapContext$.subscribe(context => {
       if (context) {
-        console.log('AddLayerFromWmsComponent: mapContext$ event received');
         this.context = context;
-        console.log('Context after initialization:', this.context);
       }
     });
 
     this.mapService.map$.subscribe(map => {
       if (map) {
-        console.log('AddLayerFromWmsComponent: map$ event received');
         this.map = map;
-        console.log('Map after initialization:', this.map);
       }
     });
   }
 
   async loadLayers() {
-    console.log('Loading layers...');
-    console.log('Current context:', this.context);
-    console.log('Current map:', this.map);
     this.errorMessage = null;
     try {
       this.loading = true;
@@ -102,8 +95,8 @@ export class AddLayerFromWmsComponent implements OnInit {
     if (this.context && this.map) {  // Ensure context and map are not null
       const newContext = { ...this.context, layers: [...this.context.layers] };
       newContext.layers.push(layerToAdd);
-      console.log('New context with added layer:', newContext);
       applyContextDiffToMap(this.map, computeMapContextDiff(newContext, this.context));
+      this.mapService.setMapContext(newContext);
     }
   }
 }

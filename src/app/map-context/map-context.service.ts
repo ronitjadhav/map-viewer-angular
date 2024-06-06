@@ -13,7 +13,6 @@ export class MapService {
   map$ = this.mapSubject.asObservable();
 
   setMapContext(context: MapContext): void {
-    console.log('Setting map context:', context);
     this.mapContextSubject.next(context);
   }
 
@@ -22,7 +21,6 @@ export class MapService {
   }
 
   setMap(map: OlMap): void {
-    console.log('Setting map:', map);
     this.mapSubject.next(map);
   }
 
