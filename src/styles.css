@@ -1,7 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'ol/ol.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.ol-zoom {
+  top: calc(100% - .5em*2 - 1.375em*2);
+  left: calc(100% - .5em*2 - 1.375em);
+}

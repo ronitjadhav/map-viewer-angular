@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { MapContext } from '@geospatial-sdk/core';
-import { Map as OlMap } from 'ol';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapService {
   private mapContextSubject = new BehaviorSubject<MapContext | null>(null);
-  private mapSubject = new BehaviorSubject<OlMap | null>(null);
+  private mapSubject = new BehaviorSubject<any | null>(null);
   mapContext$ = this.mapContextSubject.asObservable();
   map$ = this.mapSubject.asObservable();
 
@@ -16,15 +15,7 @@ export class MapService {
     this.mapContextSubject.next(context);
   }
 
-  getMapContext(): MapContext | null {
-    return this.mapContextSubject.value;
-  }
-
-  setMap(map: OlMap): void {
+  setMap(map: any): void {
     this.mapSubject.next(map);
-  }
-
-  getMap(): OlMap | null {
-    return this.mapSubject.value;
   }
 }

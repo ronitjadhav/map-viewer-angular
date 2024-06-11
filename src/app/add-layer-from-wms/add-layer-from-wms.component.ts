@@ -4,7 +4,6 @@ import { debounceTime, Subject } from "rxjs";
 import { MapContext, MapContextLayer, computeMapContextDiff } from "@geospatial-sdk/core";
 import { MapService } from "../map-context/map-context.service";
 import { applyContextDiffToMap } from "@geospatial-sdk/openlayers";
-import Map from 'ol/Map';
 import { NgForOf, NgIf, NgTemplateOutlet } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { MatFormField, MatLabel } from "@angular/material/form-field";
@@ -39,7 +38,7 @@ export class AddLayerFromWmsComponent implements OnInit {
   urlChange = new Subject<string>();
   errorMessage: string | null = null;
   context: MapContext | null = null;
-  map: Map | null = null;
+  map: any | null = null;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,

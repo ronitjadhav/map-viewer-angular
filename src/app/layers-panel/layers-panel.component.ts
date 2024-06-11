@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MapService } from "../map-context/map-context.service";
 import { MapContext } from "@geospatial-sdk/core";
-import Map from 'ol/Map';
 import { MapContextLayer } from "@geospatial-sdk/core";
 import { MatIcon } from "@angular/material/icon";
 import { NgForOf, NgIf } from "@angular/common";
@@ -25,10 +24,9 @@ import { MapContextLayerWms } from "@geospatial-sdk/core";
   templateUrl: './layers-panel.component.html',
   styleUrls: ['./layers-panel.component.css']
 })
-export class LayersPanelComponent implements OnInit {
+export class LayersPanelComponent {
   layers: MapContextLayer[] | undefined;
   context: MapContext | null = null;
-  map: Map | null = null;
   isAddLayersMinimized = true;
   isLayersListMinimized = true;
 
@@ -40,21 +38,6 @@ export class LayersPanelComponent implements OnInit {
 
   toggleLayersList() {
     this.isLayersListMinimized = !this.isLayersListMinimized;
-  }
-
-  ngOnInit() {
-    this.mapService.mapContext$.subscribe(context => {
-      if (context) {
-        this.context = context;
-        this.layers = this.context?.layers;
-      }
-    });
-
-    this.mapService.map$.subscribe(map => {
-      if (map) {
-        this.map = map;
-      }
-    });
   }
 
   hasNameProperty(layer: MapContextLayer): layer is MapContextLayerWms {
