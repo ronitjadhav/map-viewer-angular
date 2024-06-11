@@ -51,7 +51,7 @@
           <mat-icon class="material-symbols-outlined">expand_more</mat-icon>
         </button>
       </div>
-      <div *ngFor="let layer of layers">
+      <div *ngFor="let layer of layers$ | async">
         <div *ngIf="hasNameProperty(layer)">{{ layer.name }}</div>
       </div>
     </div>

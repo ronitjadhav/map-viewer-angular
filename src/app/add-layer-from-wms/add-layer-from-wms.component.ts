@@ -1,9 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { WmsEndpoint, WmsLayerSummary } from "@camptocamp/ogc-client";
-import { debounceTime, Subject } from "rxjs";
+import {debounceTime, Subject, take} from "rxjs";
 import { MapContext, MapContextLayer, computeMapContextDiff } from "@geospatial-sdk/core";
 import { MapService } from "../map-context/map-context.service";
-import { applyContextDiffToMap } from "@geospatial-sdk/openlayers";
 import { NgForOf, NgIf, NgTemplateOutlet } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { MatFormField, MatLabel } from "@angular/material/form-field";
@@ -37,8 +36,8 @@ export class AddLayerFromWmsComponent implements OnInit {
   wmsEndpoint: WmsEndpoint | null = null;
   urlChange = new Subject<string>();
   errorMessage: string | null = null;
-  context: MapContext | null = null;
-  map: any | null = null;
+  // context: MapContext | null = null;
+  // map: any | null = null;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -49,17 +48,17 @@ export class AddLayerFromWmsComponent implements OnInit {
     console.log('AddLayerFromWmsComponent initialized');
     this.urlChange.pipe(debounceTime(700)).subscribe(() => this.loadLayers());
 
-    this.mapService.mapContext$.subscribe(context => {
-      if (context) {
-        this.context = context;
-      }
-    });
+    // this.mapService.mapContext$.subscribe(context => {
+    //   if (context) {
+    //     this.context = context;
+    //   }
+    // });
 
-    this.mapService.map$.subscribe(map => {
-      if (map) {
-        this.map = map;
-      }
-    });
+    // this.mapService.map$.subscribe(map => {
+    //   if (map) {
+    //     this.map = map;
+    //   }
+    // });
   }
 
   async loadLayers() {
@@ -91,11 +90,23 @@ export class AddLayerFromWmsComponent implements OnInit {
       url: this.wmsUrl,
       type: 'wms'
     };
-    if (this.context && this.map) {  // Ensure context and map are not null
-      const newContext = { ...this.context, layers: [...this.context.layers] };
-      newContext.layers.push(layerToAdd);
-      applyContextDiffToMap(this.map, computeMapContextDiff(newContext, this.context));
+    this.mapService.mapContext$.pipe(
+      take(1)
+    ).subscribe(context => {
+      const newContext = { ...context, layers: [...context.layers, layerToAdd] };
+      // newContext.layers.push(layerToAdd);
+      // applyContextDiffToMap(this.map, computeMapContextDiff(newContext, this.context));
       this.mapService.setMapContext(newContext);
-    }
+    })
+
+    // could also do
+    // const context = await firstValueFrom(this.mapService.mapContext$)
+
+    // if (this.context && this.map) {  // Ensure context and map are not null
+    //   const newContext = { ...this.context, layers: [...this.context.layers] };
+    //   newContext.layers.push(layerToAdd);
+    //   applyContextDiffToMap(this.map, computeMapContextDiff(newContext, this.context));
+    //   this.mapService.setMapContext(newContext);
+    // }
   }
 }
