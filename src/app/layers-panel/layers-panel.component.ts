@@ -9,6 +9,7 @@ import { AddLayerFromWmsComponent } from "../add-layer-from-wms/add-layer-from-w
 import { MatTooltip } from "@angular/material/tooltip";
 import { MapContextLayerWms } from "@geospatial-sdk/core";
 import {map} from "rxjs";
+import {AddLayerFromOgcApiComponent} from "../add-layer-from-ogc-api/add-layer-from-ogc-api.component";
 
 @Component({
   selector: 'app-layers-panel',
@@ -20,7 +21,7 @@ import {map} from "rxjs";
     MatTab,
     AddLayerFromWmsComponent,
     NgIf,
-    MatTooltip,CommonModule
+    MatTooltip, CommonModule, AddLayerFromOgcApiComponent
   ],
   templateUrl: './layers-panel.component.html',
   styleUrls: ['./layers-panel.component.css']
